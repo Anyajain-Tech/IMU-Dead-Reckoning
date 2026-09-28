@@ -24,7 +24,7 @@ and position from smartphone accelerometer + gyroscope when GPS is lost.
 
 ## Results so far
 1. Noise filtering
-   ![](results/Noise_Filtering.png)
+   ![abc](results/Noise_Filtering.png)
 3. ZUPT
 4. Automatic mount recalibation
 5. Gravity removal
