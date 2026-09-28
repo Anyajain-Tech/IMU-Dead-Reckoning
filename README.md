@@ -23,10 +23,9 @@ and position from smartphone accelerometer + gyroscope when GPS is lost.
 - Not started: map matching, GNSS/INS fusion
 
 ## Results so far
-1. Noise filtering
-   ![abc](Results/Noise_Filtering.png)
-3. ZUPT
-4. Automatic mount recalibation
+1. Noise filtering ![Noise_filtering](Results/Noise_Filtering.png)
+3. ZUPT  ![zupt](Results/ZUPT.png)
+4. Automatic mount recalibration ![AMR](Results/Automatic_Mount_Recalibration.png)
 5. Gravity removal ![gravity_rmoval](Results/Gravity_Removal.png)
 
 ## Files
