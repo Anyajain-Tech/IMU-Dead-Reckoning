@@ -27,7 +27,7 @@ and position from smartphone accelerometer + gyroscope when GPS is lost.
    ![abc](Results/Noise_Filtering.png)
 3. ZUPT
 4. Automatic mount recalibation
-5. Gravity removal ![gravity_rmoval](Results/Gravity_removal.png)
+5. Gravity removal ![gravity_rmoval](Results/Gravity_Removal.png)
 
 ## Files
 - `Data_preprocessing_verified.py`: merges phone + vehicle data and checks time sync
