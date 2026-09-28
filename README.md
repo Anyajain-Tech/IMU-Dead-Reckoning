@@ -23,10 +23,11 @@ and position from smartphone accelerometer + gyroscope when GPS is lost.
 - Not started: map matching, GNSS/INS fusion
 
 ## Results so far
-1. Noise filtering(Noise Filtering.png)
-2. ZUPT
-3. Automatic mount recalibation
-4. Gravity removal
+1. Noise filtering
+   ![Speed prediction vs GPS](results/Noise_Filtering.png)
+3. ZUPT
+4. Automatic mount recalibation
+5. Gravity removal
 
 ## Files
 - `Data_preprocessing_verified.py`: merges phone + vehicle data and checks time sync
