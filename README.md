@@ -38,4 +38,4 @@ IO-VNBD dataset
 (https://github.com/onyekpeu/IO-VNBD)
 
 ## Team - TechGen
-Members - Anya, Madesh, Mahak, Chinthna, Sreenesh, Roank
+Members - Anya, Madesh, Mahak, Chinthana, Sreenesh, Roank
