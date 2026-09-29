@@ -33,6 +33,18 @@ and position from smartphone accelerometer + gyroscope when GPS is lost.
 - `Script_A.py`: noise filtering, calibration, ZUPT
 - `Script_B_Part_1`: AI speed model (partial)
 
+| Path | Content |
+|---|---|
+| `merged_raw.csv` | Merged and timestamp aligned dataset |
+| `script_a_clean_continuous.csv` | cleaned vehicle-frame dataset |
+| `results/per_trip_summary.csv` | per-trip calibration and validation metrics |
+| `results/sensor_noise_estimate.json` | measured sensor noise variance per axis |
+| `figures/*.png` | validation figures shown above |
+| `trip_split_report.csv` | report of splitting dataset |
+| `windowed_data.npz` | windowed and splitted dataset  |
+
+
+
 ## Dataset
 IO-VNBD dataset
 (https://github.com/onyekpeu/IO-VNBD)
