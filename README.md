@@ -19,8 +19,8 @@ and position from smartphone accelerometer + gyroscope when GPS is lost.
 
 ## Current status
 - Done: data merge and time-sync verification, noise filtering, calibration checks
-- In progress: AI speed model, heading, dead reckoning
-- Not started: map matching, GNSS/INS fusion
+- In progress: AI speed model, heading, dead reckoning (Needs improvement)
+- Not started: Heading estimation, Map matching, GNSS/INS fusion
 
 ## Results so far
 1. Noise filtering ![Noise_filtering](Results/Noise_Filtering.png)
