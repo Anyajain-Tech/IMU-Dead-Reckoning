@@ -337,17 +337,11 @@ body.nav-mode #navPage{display:block}
 <section class="blk" id="explain"><div class="wrap">
   <div class="tag">Dead Reckoning Explained</div><h2>Navigate without satellites.</h2>
   <div class="ex"><div class="num">01</div><div><h3>What is Dead Reckoning?</h3><p>Dead reckoning estimates your current position from a known starting point, plus how fast and in which direction you have moved. It needs no external signal, which is why it works during GPS outages.</p><p>The drawback is drift: small errors accumulate over time.</p></div></div>
-  <div class="ex"><div class="num">02</div><div><h3>Why IMU + AI?</h3><p>A phone's accelerometer and gyroscope measure motion, but integrating acceleration directly drifts within seconds. A TCN learns the relationship between IMU patterns and real speed, giving stable estimates over longer windows.</p></div></div>
+  <div class="ex"><div class="num">02</div><div><h3>Why IMU + AI?</h3><p>A phone's accelerometer and gyroscope measure motion, but integrating acceleration directly drifts within seconds. A LSTM learns the relationship between IMU patterns and real speed, giving stable estimates over longer windows.</p></div></div>
   <div class="ex"><div class="num">03</div><div><h3>Speed</h3><p>The model outputs speed from short sliding windows of IMU data. Speed alone cannot give position; it must be combined with heading and integrated over time.</p></div></div>
   <div class="ex"><div class="num">04</div><div><h3>Heading</h3><p>Heading is the direction of travel, in degrees clockwise from North. It is estimated from gyroscope rates and orientation, with bias correction to limit drift.</p></div></div>
   <div class="ex"><div class="num">05</div><div><h3>Position Update</h3><p>Each step moves the position by distance = speed × Δt along the current heading. Vehicle constraints (no sideways or vertical motion) keep the estimate realistic.</p></div></div>
-  <div class="tag" style="margin:40px 0 14px">Reference</div>
-  <h2 style="font-size:28px;margin:0 0 18px">The DR Formula</h2>
-  <div class="formula">
-    d&nbsp; = v · Δt<br>φ₂ = φ₁ + (d · cos θ) / R<br>λ₂ = λ₁ + (d · sin θ) / (R · cos φ₁)
-    <div class="lg">φ latitude (rad) · λ longitude (rad) · v speed (m/s) · θ heading (rad from North) · R Earth radius</div>
-  </div>
-</div></section>
+  </section>
 
 <section class="blk alt" id="about"><div class="wrap">
   <div class="tag">About</div><h2>About the project</h2>
@@ -395,7 +389,7 @@ body.nav-mode #navPage{display:block}
 </div>
 </div>
 
-<footer><div class="wrap">Smart India Hackathon 2026 · Problem Statement SIH26168 · Team [name]</div></footer>
+<footer><div class="wrap">Smart India Hackathon 2026 · Problem Statement SIH26168 · Team - TechGen </div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
@@ -441,7 +435,7 @@ function initMap(){
   const esriAttr='Tiles &copy; Esri &mdash; Esri, HERE, Garmin, OpenStreetMap contributors';
   const dark=L.layerGroup([
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:16,maxZoom:18,attribution:esriAttr}),
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:19,maxZoom:19,attribution:esriAttr})
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:16,maxZoom:18})
   ]).addTo(map);
   const street=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:19,maxZoom:19,attribution:esriAttr});
   const osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'});
@@ -516,7 +510,7 @@ function updateUI(){
   tLon.textContent=S.est.lon.toFixed(5)+'° E';
   tSpd.textContent=(V*3.6*(S.gps?1:1.03)).toFixed(1)+' km/h';
   tHdg.textContent=Math.round((S.hdg+(S.gps?0:S.hErr)+360)%360)+'°';
-  tSrc.textContent=S.gps?'GPS':'IMU + TCN';
+  tSrc.textContent=S.gps?'GPS':'IMU + LSTM';
   tErr.textContent=e.toFixed(0)+' m';
   badge.classList.toggle('off',!S.gps);
   badgeTxt.textContent=S.gps?'GNSS: LOCKED':'GNSS: OFFLINE · DR ACTIVE';
@@ -603,6 +597,10 @@ function finish(){running=false;say('Route complete. Press Reset to run again.')
   addEventListener('load',build);
   build();
 })();
+</script>
+</body>
+</html>
+
 </script>
 </body>
 </html>
