@@ -121,6 +121,67 @@ body.nav-mode #navPage{display:block}
 }
 @media(prefers-reduced-motion:reduce){.badge.off{animation:none}html{scroll-behavior:auto}}
 :focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+
+/* ===== How it works: signal journey ===== */
+.flowsub{color:var(--mut);font-size:18px;max-width:560px}
+.flow{position:relative;margin-top:36px}
+.flowsvg{position:absolute;left:0;top:0;pointer-events:none;overflow:visible;z-index:0}
+.stn{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:56px;min-height:360px;padding:20px 0}
+.stn:nth-child(even) .gfx{order:2}
+.gfx{justify-self:center}
+.stn:nth-child(even) .txt{text-align:right;justify-self:end}
+.ring{position:relative;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle at 50% 35%,rgba(255,255,255,.05),transparent 70%),#0d1218;border:2px solid #24303d;opacity:.4;filter:grayscale(.7);transition:opacity .6s,filter .6s,box-shadow .6s,border-color .6s}
+.stn.on .ring{opacity:1;filter:none;border-color:var(--c);box-shadow:0 0 54px color-mix(in srgb,var(--c) 42%,transparent)}
+.ring::before{content:"";position:absolute;inset:-14px;border-radius:50%;border:1px dashed color-mix(in srgb,var(--c) 55%,transparent);animation:spin 40s linear infinite;animation-play-state:paused}
+.stn.on .ring::before{animation-play-state:running}
+.ring svg{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;overflow:hidden}
+.ring svg text{font-family:'Space Mono',monospace}
+.ring svg *{animation-play-state:paused}
+.stn.on .ring svg *{animation-play-state:running}
+.bd{position:absolute;top:-8px;left:-8px;z-index:3;width:42px;height:42px;border-radius:50%;background:var(--c);color:#071016;display:grid;place-items:center;font-family:'Space Mono',monospace;font-weight:700;font-size:14px}
+.txt{max-width:430px;opacity:.45;transition:opacity .6s}
+.stn.on .txt{opacity:1}
+.txt .k{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.15em;color:var(--c);font-weight:700}
+.txt h3{font-size:30px;margin:8px 0 12px}
+.txt p{color:var(--mut);font-size:17px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.stn:nth-child(even) .chips{justify-content:flex-end}
+.chip{font-family:'Space Mono',monospace;font-size:11px;border:1px solid color-mix(in srgb,var(--c) 50%,transparent);color:var(--c);padding:4px 10px;border-radius:99px}
+.chip b{color:var(--mut);font-weight:400}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes flt{50%{transform:translateY(-5px)}}
+@keyframes dash{to{stroke-dashoffset:-26}}
+@keyframes bias{0%{transform:translate(30px,-26px)}45%,80%{transform:translate(0,0)}100%{transform:translate(30px,-26px)}}
+@keyframes sp{0%{transform:translateY(0);opacity:1}100%{transform:translateY(var(--dy));opacity:0}}
+@keyframes pls{50%{opacity:.2}}
+@keyframes ndl{0%,100%{transform:rotate(-65deg)}50%{transform:rotate(45deg)}}
+@keyframes gg{0%,100%{stroke-dashoffset:86}50%{stroke-dashoffset:25}}
+@keyframes draw{0%{stroke-dashoffset:100}60%,100%{stroke-dashoffset:0}}
+@keyframes trav{0%{offset-distance:0%}60%,100%{offset-distance:100%}}
+@keyframes cmp{0%,100%{transform:rotate(-20deg)}50%{transform:rotate(50deg)}}
+@keyframes wv{0%{opacity:0;transform:scale(.6)}30%{opacity:1}100%{opacity:0;transform:scale(1.25)}}
+.flt{animation:flt 3.2s ease-in-out infinite}
+.fdash{stroke-dasharray:7 6;animation:dash 1.2s linear infinite}
+.rot{transform-origin:100px 100px;animation:spin 14s linear infinite}
+.bias{animation:bias 4s ease-in-out infinite}
+.spike{animation:sp 2.2s ease-in infinite}
+.pulse{animation:pls 2s ease-in-out infinite}
+.needle{transform-origin:100px 168px;animation:ndl 3.6s ease-in-out infinite}
+.gauge{stroke-dasharray:100;animation:gg 3.6s ease-in-out infinite}
+.draw{stroke-dasharray:100;animation:draw 4s ease-in-out infinite}
+.trav{offset-path:path('M30 150 L62 132 L84 146 L120 108 L142 120 L172 76');offset-rotate:0deg;animation:trav 4s ease-in-out infinite}
+.cmp{transform-origin:52px 52px;animation:cmp 5s ease-in-out infinite}
+.wave{animation:wv 2.4s ease-out infinite}
+@media(max-width:900px){
+ .stn{grid-template-columns:1fr;gap:20px;min-height:0;padding:34px 0}
+ .stn:nth-child(even) .gfx{order:0;justify-self:end;margin-right:6%}
+ .stn:nth-child(odd) .gfx{justify-self:start;margin-left:6%}
+ .stn:nth-child(even) .txt{text-align:left;justify-self:start}
+ .stn:nth-child(even) .chips{justify-content:flex-start}
+ .ring{width:170px;height:170px}
+ .txt h3{font-size:24px}
+}
+@media(prefers-reduced-motion:reduce){.ring svg *,.ring::before{animation:none!important}.ring svg .draw,.ring svg .gauge{stroke-dashoffset:0}}
 </style>
 </head>
 <body>
@@ -168,11 +229,103 @@ body.nav-mode #navPage{display:block}
 
 
 <section class="blk" id="how"><div class="wrap">
-  <div class="tag">Process</div><h2>How It Works</h2>
-  <div class="steps">
-    <div class="step"><div class="n"><span>01</span><hr></div><h3>Last known position</h3><p>DeadReck starts from the last valid GPS fix the moment the signal is lost.</p></div>
-    <div class="step"><div class="n"><span>02</span><hr></div><h3>Estimate speed and heading</h3><p>The LSTM predicts speed and heading from IMU data. Both are estimates, not measured values.</p></div>
-    <div class="step"><div class="n"><span>03</span><hr></div><h3>Track your position</h3><p>Speed and heading are integrated over time to update your position. Error grows with time, so accuracy is best over short outages.</p></div>
+  <div class="tag">Process</div><h2 style="margin-bottom:10px">How It Works</h2>
+  <p class="flowsub">Follow one signal from the phone in your pocket to a position on the map. Scroll to send it down the line.</p>
+  <div class="flow" id="flow">
+  <div class="stn" data-c="#00d4ff" style="--c:#00d4ff">
+    <div class="gfx"><div class="ring"><span class="bd">01</span><svg viewBox="0 0 200 200" aria-hidden="true">
+<g class="rot" style="transform-origin:100px 92px"><circle cx="100" cy="92" r="64" fill="none" stroke="var(--c)" stroke-opacity=".4" stroke-dasharray="3 7"/></g>
+<g class="flt">
+<rect x="78" y="46" width="44" height="88" rx="8" fill="#0a0e14" stroke="var(--c)" stroke-width="2.5"/>
+<rect x="84" y="56" width="32" height="60" rx="3" fill="rgba(0,212,255,.1)"/>
+<circle cx="100" cy="125" r="3" fill="var(--c)"/>
+<line x1="100" y1="86" x2="100" y2="32" stroke="#39d98a" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="100" y1="86" x2="152" y2="86" stroke="#ff5ea8" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="100" y1="86" x2="68" y2="118" stroke="#ffd84d" stroke-width="2.5" stroke-linecap="round"/>
+<text x="96" y="28" font-size="10" fill="#39d98a">y</text><text x="156" y="90" font-size="10" fill="#ff5ea8">x</text><text x="56" y="126" font-size="10" fill="#ffd84d">z</text>
+</g>
+<polyline class="fdash" points="34,168 42,160 48,176 56,156 62,178 70,162 78,174 86,158 94,178 102,160 110,176 118,158 126,174 134,162 142,178 150,160 158,172 166,164" fill="none" stroke="var(--c)" stroke-width="2"/>
+</svg></div></div>
+    <div class="txt"><div class="k">STAGE 01 / 06 · SMARTPHONE IMU</div><h3>Motion starts in your phone</h3><p>The phone's accelerometer and gyroscope stream raw motion: acceleration on three axes and rotation rate. This is the only sensor input DeadReck needs.</p>
+      <div class="chips"><span class="chip"><b>IN</b> phone motion</span><span class="chip"><b>OUT</b> raw a(t), ω(t)</span></div></div>
+  </div>
+  <div class="stn" data-c="#a78bfa" style="--c:#a78bfa">
+    <div class="gfx"><div class="ring"><span class="bd">02</span><svg viewBox="0 0 200 200" aria-hidden="true">
+<polyline class="fdash" points="10,100 18,82 24,118 32,76 38,122 46,84 52,116 60,80 66,120 74,90 82,110 86,100" fill="none" stroke="#c9b8ff" stroke-width="2"/>
+<ellipse cx="100" cy="100" rx="16" ry="52" fill="rgba(167,139,250,.1)" stroke="var(--c)" stroke-width="2.5"/>
+<g stroke="var(--c)" stroke-opacity=".7"><line x1="90" y1="70" x2="110" y2="70"/><line x1="86" y1="85" x2="114" y2="85"/><line x1="85" y1="100" x2="115" y2="100"/><line x1="86" y1="115" x2="114" y2="115"/><line x1="90" y1="130" x2="110" y2="130"/><line x1="100" y1="50" x2="100" y2="150"/></g>
+<path d="M114 100 C130 72 146 72 152 100 S174 128 192 100" fill="none" stroke="var(--c)" stroke-width="3.5" stroke-linecap="round"/>
+<circle class="spike" cx="93" cy="52" r="3" fill="#c9b8ff" style="--dy:-30px"/>
+<circle class="spike" cx="108" cy="148" r="3" fill="#c9b8ff" style="--dy:30px;animation-delay:.9s"/>
+<circle class="spike" cx="106" cy="50" r="2.4" fill="#c9b8ff" style="--dy:-26px;animation-delay:1.4s"/>
+<text x="16" y="146" font-size="9" fill="#c9b8ff">RAW</text><text x="156" y="146" font-size="9" fill="var(--c)">CLEAN</text>
+</svg></div></div>
+    <div class="txt"><div class="k">STAGE 02 / 06 · FILTERING</div><h3>Noise is filtered out</h3><p>Road vibration and sensor jitter are removed, so only the real motion of the vehicle continues down the line.</p>
+      <div class="chips"><span class="chip"><b>IN</b> raw a(t), ω(t)</span><span class="chip"><b>OUT</b> smooth a(t), ω(t)</span></div></div>
+  </div>
+  <div class="stn" data-c="#ffb020" style="--c:#ffb020">
+    <div class="gfx"><div class="ring"><span class="bd">03</span><svg viewBox="0 0 200 200" aria-hidden="true">
+<g class="rot"><circle cx="100" cy="100" r="82" fill="none" stroke="var(--c)" stroke-width="9" stroke-opacity=".25" stroke-dasharray="2 8"/></g>
+<circle cx="100" cy="100" r="58" fill="none" stroke="var(--c)" stroke-opacity=".5"/>
+<circle cx="100" cy="100" r="34" fill="none" stroke="var(--c)" stroke-opacity=".5"/>
+<circle cx="100" cy="100" r="12" fill="none" stroke="var(--c)"/>
+<line x1="20" y1="100" x2="180" y2="100" stroke="var(--c)" stroke-opacity=".4"/><line x1="100" y1="20" x2="100" y2="180" stroke="var(--c)" stroke-opacity=".4"/>
+<circle cx="130" cy="74" r="7" fill="none" stroke="var(--c)" stroke-opacity=".6" stroke-dasharray="3 3"/>
+<circle class="bias" cx="100" cy="100" r="7" fill="var(--c)"/>
+<text x="100" y="176" text-anchor="middle" font-size="9" fill="var(--c)">BIAS → 0</text>
+</svg></div></div>
+    <div class="txt"><div class="k">STAGE 03 / 06 · CALIBRATION</div><h3>Sensors are calibrated</h3><p>Sensor bias and orientation offsets are estimated and removed automatically, so every reading starts from a clean zero.</p>
+      <div class="chips"><span class="chip"><b>IN</b> smooth a(t), ω(t)</span><span class="chip"><b>OUT</b> zero-bias a(t), ω(t)</span></div></div>
+  </div>
+  <div class="stn" data-c="#39d98a" style="--c:#39d98a">
+    <div class="gfx"><div class="ring"><span class="bd">04</span><svg viewBox="0 0 200 200" aria-hidden="true">
+<g class="nn"></g>
+<path d="M38 168 A62 62 0 0 1 162 168" fill="none" stroke="#1f3b30" stroke-width="10" stroke-linecap="round"/>
+<path class="gauge" d="M38 168 A62 62 0 0 1 162 168" pathLength="100" fill="none" stroke="var(--c)" stroke-width="10" stroke-linecap="round"/>
+<line class="needle" x1="100" y1="168" x2="100" y2="118" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+<circle cx="100" cy="168" r="6" fill="#fff"/>
+<text x="100" y="187" text-anchor="middle" font-size="9" fill="var(--c)">SPEED</text>
+</svg></div></div>
+    <div class="txt"><div class="k">STAGE 04 / 06 · AI SPEED</div><h3>AI predicts the speed</h3><p>An LSTM network reads short windows of clean IMU data and predicts vehicle speed. No speedometer and no GPS.</p>
+      <div class="chips"><span class="chip"><b>IN</b> IMU windows</span><span class="chip"><b>OUT</b> speed v</span></div></div>
+  </div>
+  <div class="stn" data-c="#ff5ea8" style="--c:#ff5ea8">
+    <div class="gfx"><div class="ring"><span class="bd">05</span><svg viewBox="0 0 200 200" aria-hidden="true">
+<circle cx="52" cy="52" r="26" fill="rgba(255,94,168,.08)" stroke="var(--c)" stroke-opacity=".6"/>
+<text x="52" y="38" text-anchor="middle" font-size="9" fill="var(--c)">N</text>
+<g class="cmp"><polygon points="52,34 57,52 47,52" fill="var(--c)"/><polygon points="52,70 57,52 47,52" fill="#3b4453"/></g>
+<path d="M30 150 L62 132 L84 146 L120 108 L142 120 L172 76" fill="none" stroke="#3b2333" stroke-width="3" stroke-linejoin="round"/>
+<path class="draw" d="M30 150 L62 132 L84 146 L120 108 L142 120 L172 76" pathLength="100" fill="none" stroke="var(--c)" stroke-width="3.5" stroke-linejoin="round"/>
+<g fill="var(--c)"><circle cx="30" cy="150" r="3.5"/><circle cx="62" cy="132" r="3.5"/><circle cx="84" cy="146" r="3.5"/><circle cx="120" cy="108" r="3.5"/><circle cx="142" cy="120" r="3.5"/><circle cx="172" cy="76" r="3.5"/></g>
+<circle class="trav" r="6" fill="#fff"/>
+<text x="112" y="160" font-size="9" fill="var(--c)">v·Δt along θ</text>
+</svg></div></div>
+    <div class="txt"><div class="k">STAGE 05 / 06 · PATH</div><h3>Speed and heading become a path</h3><p>Each step moves the position by speed × time along the heading. Step after step, that builds the vehicle's path.</p>
+      <div class="chips"><span class="chip"><b>IN</b> speed v, heading θ</span><span class="chip"><b>OUT</b> path x, y</span></div></div>
+  </div>
+  <div class="stn" data-c="#ffd84d" style="--c:#ffd84d">
+    <div class="gfx"><div class="ring"><span class="bd">06</span><svg viewBox="0 0 200 200" aria-hidden="true">
+<g stroke="#1e2733" stroke-width="7" stroke-linecap="round" fill="none"><path d="M0 60 L200 92"/><path d="M0 138 L200 118"/><path d="M60 0 L86 200"/><path d="M146 0 L120 200"/></g>
+<g stroke="#161d27" stroke-width="2" fill="none"><path d="M0 100 L200 96"/><path d="M104 0 L100 200"/><path d="M0 30 L200 40"/></g>
+<path id="fuseP" d="M18 150 C58 150 68 112 100 106 S150 82 184 58" stroke="var(--c)" stroke-opacity=".28" stroke-width="10" fill="none" stroke-linecap="round"/>
+<path class="draw" d="M18 150 C58 150 68 112 100 106 S150 82 184 58" pathLength="100" stroke="var(--c)" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M18 150 C58 150 68 112 100 106 S150 82 184 58" pathLength="100" stroke="#ff9f1c" stroke-width="4" fill="none" stroke-dasharray="0 30 40 100"/>
+<g id="gnssDots"></g>
+<g transform="rotate(-25 64 40)"><rect x="58" y="36" width="12" height="8" rx="1.5" fill="#cfd8e3"/><rect x="40" y="37" width="16" height="6" fill="#00d4ff" fill-opacity=".7"/><rect x="72" y="37" width="16" height="6" fill="#00d4ff" fill-opacity=".7"/></g>
+<path class="wave" style="transform-origin:64px 46px" d="M52 58 A16 16 0 0 0 76 58" stroke="#00d4ff" fill="none" stroke-width="1.6"/>
+<text x="30" y="136" font-size="9" fill="#00d4ff">GNSS</text><text x="90" y="128" font-size="9" fill="#ff9f1c">DR</text><text x="138" y="80" font-size="9" fill="var(--c)">FUSED</text>
+</svg></div></div>
+    <div class="txt"><div class="k">STAGE 06 / 06 · MAP FUSION</div><h3>The path merges with GNSS on the map</h3><p>When GNSS is available, its fixes anchor the path and cancel accumulated drift. When GNSS drops, dead reckoning carries on. The result is one continuous track on the map.</p>
+      <div class="chips"><span class="chip"><b>IN</b> DR path + GNSS fixes</span><span class="chip"><b>OUT</b> fused track</span></div></div>
+  </div>
+  <svg class="flowsvg" id="flowSvg" aria-hidden="true">
+    <defs><linearGradient id="flowGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1"></linearGradient>
+    <filter id="fglow" x="-20%" y="-5%" width="140%" height="110%"><feGaussianBlur stdDeviation="5"/></filter></defs>
+    <path id="fBase" fill="none" stroke="#1c2530" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round"/>
+    <path class="lit" fill="none" stroke="url(#flowGrad)" stroke-width="12" filter="url(#fglow)" opacity=".55" stroke-linecap="round"/>
+    <path class="lit" fill="none" stroke="url(#flowGrad)" stroke-width="5" stroke-linecap="round"/>
+    <g id="fDot" style="display:none"><circle class="halo" r="22" opacity=".22"/><circle class="t3" r="4" opacity=".25"/><circle class="t2" r="5" opacity=".4"/><circle class="t1" r="6.5" opacity=".65"/><circle class="hd" r="9" fill="#fff"/></g>
+  </svg>
   </div>
 </div></section>
 
@@ -384,6 +537,72 @@ function toggleGps(){
   updateUI();
 }
 function finish(){running=false;say('Route complete. Press Reset to run again.');updateUI()}
+</script>
+<script>
+/* ---------- How it works: flow ---------- */
+(function(){
+  // neural net graphic (stage 4)
+  const cols=[[46,[44,64,84]],[84,[34,54,74,94]],[122,[34,54,74,94]],[160,[54,74]]];let h='';
+  for(let c=0;c<cols.length-1;c++)for(const y1 of cols[c][1])for(const y2 of cols[c+1][1])h+=`<line x1="${cols[c][0]}" y1="${y1}" x2="${cols[c+1][0]}" y2="${y2}" stroke="var(--c)" stroke-opacity=".22"/>`;
+  cols.forEach(([x,ys],c)=>ys.forEach((y,i)=>h+=`<circle class="pulse" style="animation-delay:${(c*0.35+i*0.1).toFixed(2)}s" cx="${x}" cy="${y}" r="5" fill="var(--c)"/>`));
+  document.querySelector('.nn').innerHTML=h;
+  // GNSS fix dots on the fusion map (stage 6)
+  const fp=document.getElementById('fuseP');const fl=fp.getTotalLength();let g='';
+  [0,.07,.14,.21,.28,.72,.79,.86,.93,1].forEach(t=>{const q=fp.getPointAtLength(fl*t);g+=`<circle class="pulse" cx="${q.x}" cy="${q.y}" r="3.2" fill="#00d4ff" style="animation-delay:${(t*1.4).toFixed(2)}s"/>`});
+  document.getElementById('gnssDots').innerHTML=g;
+
+  const flow=document.getElementById('flow'),svg=document.getElementById('flowSvg'),base=document.getElementById('fBase');
+  const lits=[...svg.querySelectorAll('.lit')],grad=document.getElementById('flowGrad'),dot=document.getElementById('fDot');
+  const stn=[...flow.querySelectorAll('.stn')],cs=stn.map(s=>s.dataset.c);
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let pts=[],len=0,segEnd=[0],H=0;
+  const hex=s=>[1,3,5].map(i=>parseInt(s.substr(i,2),16));
+  const mix=(a,b,t)=>{const A=hex(a),B=hex(b);return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')};
+  function build(){
+    const fr=flow.getBoundingClientRect();if(!fr.width)return;
+    const W=fr.width;H=fr.height;
+    svg.setAttribute('width',W);svg.setAttribute('height',H);svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    pts=stn.map(s=>{const r=s.querySelector('.ring').getBoundingClientRect();return{x:r.left-fr.left+r.width/2,y:r.top-fr.top+r.height/2}});
+    let d='M'+pts[0].x+' '+pts[0].y;segEnd=[0];let acc=0;
+    for(let i=1;i<pts.length;i++){
+      const a=pts[i-1],b=pts[i],m=(a.y+b.y)/2;
+      d+='C'+a.x+' '+m+' '+b.x+' '+m+' '+b.x+' '+b.y;
+      const t=document.createElementNS('http://www.w3.org/2000/svg','path');
+      t.setAttribute('d','M'+a.x+' '+a.y+'C'+a.x+' '+m+' '+b.x+' '+m+' '+b.x+' '+b.y);
+      acc+=t.getTotalLength();segEnd.push(acc);
+    }
+    base.setAttribute('d',d);lits.forEach(p=>p.setAttribute('d',d));
+    len=base.getTotalLength();lits.forEach(p=>p.style.strokeDasharray=len);
+    grad.setAttribute('y2',H);
+    grad.innerHTML=pts.map((p,i)=>'<stop offset="'+(p.y/H).toFixed(3)+'" stop-color="'+cs[i]+'"/>').join('');
+    update();
+  }
+  function update(){
+    if(!pts.length)return;
+    const fr=flow.getBoundingClientRect();
+    const ty=reduce?H:innerHeight*0.6-fr.top;
+    let L=0;
+    if(ty>=pts[pts.length-1].y)L=len;
+    else if(ty>pts[0].y){let lo=0,hi=len;for(let k=0;k<22;k++){const mid=(lo+hi)/2;if(base.getPointAtLength(mid).y<ty)lo=mid;else hi=mid}L=(lo+hi)/2}
+    lits.forEach(p=>p.style.strokeDashoffset=len-L);
+    stn.forEach((s,i)=>s.classList.toggle('on',reduce||ty>=pts[i].y-70));
+    dot.style.display=(reduce||ty>pts[0].y-40)?'':'none';
+    let i=0;while(i<segEnd.length-2&&L>segEnd[i+1])i++;
+    const span=(segEnd[i+1]-segEnd[i])||1,c=mix(cs[i],cs[i+1],Math.min(1,Math.max(0,(L-segEnd[i])/span)));
+    [['.hd',0],['.t1',14],['.t2',28],['.t3',46]].forEach(([sel,off])=>{
+      const q=base.getPointAtLength(Math.max(0,L-off)),e=dot.querySelector(sel);
+      e.setAttribute('cx',q.x);e.setAttribute('cy',q.y);if(sel!=='.hd')e.setAttribute('fill',c);
+    });
+    const q=base.getPointAtLength(L),hl=dot.querySelector('.halo');
+    hl.setAttribute('cx',q.x);hl.setAttribute('cy',q.y);hl.setAttribute('fill',c);
+  }
+  let tick=false;
+  addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(()=>{tick=false;update()})}},{passive:true});
+  new ResizeObserver(()=>build()).observe(flow);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(build);
+  addEventListener('load',build);
+  build();
+})();
 </script>
 </body>
 </html>
