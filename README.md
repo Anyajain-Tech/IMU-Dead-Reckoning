@@ -2,6 +2,8 @@
 
 > Seamless smartphone navigation when GNSS disappears: tunnels, underpasses, parking levels, urban canyons.
 
+AI/ML-based Intelligent Dead Reckoning: estimates vehicle speed, heading
+and position from smartphone accelerometer + gyroscope when GPS is lost.
 | | | |
 |---|---|---|
 | [![Section](https://img.shields.io/badge/SECTION-PROBLEM_STATEMENT-e05d44?labelColor=555555&style=flat-square)](#problem-statement) | [![Section](https://img.shields.io/badge/SECTION-OVERVIEW-0078d4?labelColor=555555&style=flat-square)](#overview) | [![Section](https://img.shields.io/badge/SECTION-ARCHITECTURE-008080?labelColor=555555&style=flat-square)](#architecture) |
@@ -440,3 +442,46 @@ flowchart LR
 - [ ] Mobile app with smooth navigation UI
 - [ ] Edge engine tested with external IMU data
 - [ ] Benchmark run against drift targets
+
+## Trained Model
+
+## Pipeline
+1. Raw sensor intake (10 Hz accelerometer + gyroscope)
+2. Noise removal (median + Kalman filter)
+3. Self-calibration / alignment (tilt from gravity, yaw from motion)
+4. Gravity Removal — Isolate linear acceleration from gravity component
+5. AI Speed Estimation — LSTM model estimates speed from the calibrated signal.
+    Trained with a dual-constraint loss: per-window accuracy + cumulative trajectory consistency.
+    Training data augmented with simulated calibration/orientation errors, so the model stays robust when Step 3's alignment is imperfect.
+6. Heading estimation (gyro yaw rate with ZUPT bias correction)
+7. Dead reckoning with non-holonomic constraints
+8. Map matching (HMM on OpenStreetMap)
+9. GNSS + INS fusion - Blend GPS when available; rely on steps 5-8 during outage (enhanced with learned confidence/noise-weighting from the AI model to guide fusion trust)
+
+## Current status
+- Done: data merge and time-sync verification, noise filtering, calibration checks
+- In progress: AI speed model, heading, dead reckoning (Needs improvement)
+- Not started: Heading estimation, Map matching, GNSS/INS fusion
+
+
+## Results so far
+1. Noise filtering ![Noise_filtering](Results/Noise_Filtering.png)
+3. ZUPT  ![zupt](Results/ZUPT.png)
+4. Automatic mount recalibration ![AMR](Results/Automatic_Mount_Recalibration.png)
+5. Gravity removal ![gravity_rmoval](Results/Gravity_Removal.png)
+
+## Files
+- `Data_preprocessing_verified.py`: merges phone + vehicle data and checks time sync
+- `Script_A.py`: noise filtering, calibration, ZUPT
+- `Script_B_Part_1`: AI speed model (partial)
+
+| Path | Content |
+|---|---|
+| `merged_raw.csv` | Merged and timestamp aligned dataset |
+| `script_a_clean_continuous.csv` | cleaned vehicle-frame dataset |
+| `results/per_trip_summary.csv` | per-trip calibration and validation metrics |
+| `results/sensor_noise_estimate.json` | measured sensor noise variance per axis |
+| `figures/*.png` | validation figures shown above |
+| `trip_split_report.csv` | report of splitting dataset |
+| `windowed_data.npz` | windowed and splitted dataset  |
+
