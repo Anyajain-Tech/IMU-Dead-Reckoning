@@ -77,6 +77,14 @@ flowchart LR
 | Loose phone mount | Orientation relative to the vehicle is unknown |
 
 ---
+| # | Name | Position | Assigned work stream | Contact |
+|---|---|---|---|---|
+| 1 | Anya Jain | Team Leader
+| 2 | Madesh | Member 
+| 3 | Sreenesh | Member 
+| 4 | Ronak | Member 
+| 5 | Chinthana | Member 
+| 6 | Mahak | Member 
 
 ## Overview
 
