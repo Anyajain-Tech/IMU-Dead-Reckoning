@@ -39,6 +39,7 @@ mindmap
 
 ---
 
+
 ## Table of Contents
 
 - [Problem Statement](#problem-statement)
@@ -50,6 +51,7 @@ mindmap
 - [Phases](#phases)
 - [Performance Benchmarks](#performance-benchmarks)
 - [Dataset](#dataset)
+- [Current Status](#current-status)
 - [Deployment](#deployment)
 - [Milestone Tracker](#milestone-tracker)
 
@@ -382,7 +384,64 @@ xychart-beta
     bar [5, 25, 50, 75, 100]
 ```
 
+
 ---
+
+# Current Status
+
+```mermaid
+flowchart LR
+    subgraph DONE["DONE"]
+        D1["Data merge and time-sync verification"]
+        D2["Noise filtering"]
+        D3["Calibration checks"]
+    end
+    subgraph WIP["IN PROGRESS"]
+        W1["AI speed model"]
+        W2["Heading"]
+        W3["Dead reckoning<br/>(needs improvement)"]
+    end
+    subgraph TODO["NOT STARTED"]
+        T1["Heading estimation"]
+        T2["Map matching"]
+        T3["GNSS/INS fusion"]
+    end
+    DONE --> WIP --> TODO
+
+    style DONE fill:#1a5c2e,stroke:#66b512,color:#fff
+    style WIP fill:#5c4a1a,stroke:#d4a017,color:#fff
+    style TODO fill:#3a3f47,stroke:#8b949e,color:#fff
+```
+
+- **Done:** data merge and time-sync verification, noise filtering, calibration checks
+- **In progress:** AI speed model, heading, dead reckoning (needs improvement)
+- **Not started:** heading estimation, map matching, GNSS/INS fusion
+
+
+## Results so far
+1. Noise filtering ![Noise_filtering](Results/Noise_Filtering.png)
+3. ZUPT  ![zupt](Results/ZUPT.png)
+4. Automatic mount recalibration ![AMR](Results/Automatic_Mount_Recalibration.png)
+5. Gravity removal ![gravity_rmoval](Results/Gravity_Removal.png)
+
+
+
+## Files
+
+- `Data_preprocessing_verified.py`: merges phone + vehicle data and checks time sync
+- `Script_A.py`: noise filtering, calibration, ZUPT
+- `Script_B_Part_1`: AI speed model (partial)
+
+| Path | Content |
+|---|---|
+| `merged_raw.csv` | Merged and timestamp-aligned dataset |
+| `script_a_clean_continuous.csv` | Cleaned vehicle-frame dataset |
+| `results/per_trip_summary.csv` | Per-trip calibration and validation metrics |
+| `results/sensor_noise_estimate.json` | Measured sensor noise variance per axis |
+| `figures/*.png` | Validation figures shown above |
+| `trip_split_report.csv` | Report of splitting dataset |
+| `windowed_data.npz` | Windowed and split dataset |
+
 
 ## Dataset
 
